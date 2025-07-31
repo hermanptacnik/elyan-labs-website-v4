@@ -1,22 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  const headerRef = useRef(null);
-  const loadingBarRef = useRef(null);
-  const heroRef = useRef(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const loadingBarRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     // Loading bar animation
-    gsap.to(loadingBarRef.current, {
-      x: '200%',
-      duration: 2,
-      repeat: -1,
-      ease: 'none',
-    });
+    if (loadingBarRef.current) {
+      gsap.to(loadingBarRef.current, {
+        x: '200%',
+        duration: 2,
+        repeat: -1,
+        ease: 'none',
+      });
+    }
 
     // Remove loading bar after 1 second
     setTimeout(() => {
@@ -46,7 +48,7 @@ export default function App() {
     // GSAP ScrollTrigger animations with better performance
     const animateElements = () => {
       gsap.utils.toArray('.fade-in').forEach((element) => {
-        gsap.fromTo(element, 
+        gsap.fromTo(element as Element, 
           {
             opacity: 0,
             y: 20,
@@ -57,7 +59,7 @@ export default function App() {
             duration: 0.8,
             ease: 'power2.out',
             scrollTrigger: {
-              trigger: element,
+              trigger: element as Element,
               start: 'top 85%',
               once: true,
             }
@@ -85,17 +87,19 @@ export default function App() {
 
     // Smooth scroll for anchor links with offset for fixed header
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener('click', function (this: HTMLAnchorElement, e: Event) {
         e.preventDefault();
         const targetId = this.getAttribute('href');
-        const target = document.querySelector(targetId);
-        if (target) {
-          const headerHeight = 80;
-          const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
+        if (targetId) {
+          const target = document.querySelector(targetId);
+          if (target) {
+            const headerHeight = 80;
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+            window.scrollTo({
+              top: targetPosition,
+              behavior: 'smooth'
+            });
+          }
         }
       });
     });
