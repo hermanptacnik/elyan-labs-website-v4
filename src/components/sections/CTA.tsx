@@ -1,5 +1,35 @@
+// src/components/sections/CTA.tsx
 import React from 'react';
-import { Button } from '../ui/Button';
+
+interface ButtonProps {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  children: React.ReactNode;
+  className?: string;
+}
+/** Inline Button so no external import is needed */
+const Button: React.FC<ButtonProps> = ({
+  href,
+  variant = 'primary',
+  children,
+  className = '',
+}) => {
+  const baseClasses =
+    'px-6 lg:px-8 py-3 lg:py-4 font-normal rounded transition-all duration-300';
+  const variants = {
+    primary: 'bg-white text-black hover:translate-x-1',
+    secondary:
+      'text-white border border-white/20 hover:border-white hover:bg-white/5',
+  };
+  return (
+    <a
+      href={href}
+      className={`${baseClasses} ${variants[variant]} ${className}`}
+    >
+      {children}
+    </a>
+  );
+};
 
 interface CTALink {
   icon: string;
@@ -9,30 +39,18 @@ interface CTALink {
 }
 
 export const CTA: React.FC = () => {
-  // @ts-ignore
+  // @ts-ignore: temporary stub
   const ctaLinks: CTALink[] = [
-    {
-      icon: '💬',
-      title: 'Discord',
-      description: 'Join our community',
-      href: '#',
-    },
-    {
-      icon: '📚',
-      title: 'Documentation',
-      description: 'Technical resources',
-      href: '#',
-    },
-    {
-      icon: '🔧',
-      title: 'GitHub',
-      description: 'Open source code',
-      href: '#',
-    },
+    { icon: '💬', title: 'Discord', description: 'Join our community', href: '#' },
+    { icon: '📚', title: 'Documentation', description: 'Technical resources', href: '#' },
+    { icon: '🔧', title: 'GitHub', description: 'Open source code', href: '#' },
   ];
 
   return (
-    <section id="connect" className="bg-black text-center px-6 lg:px-12 xl:px-16 py-20 lg:py-32 xl:py-40 border-t border-white/10">
+    <section
+      id="connect"
+      className="bg-black text-center px-6 lg:px-12 xl:px-16 py-20 lg:py-32 xl:py-40 border-t border-white/10"
+    >
       <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[5rem] mb-6 lg:mb-8 font-extralight tracking-tight fade-in">
         Step Into the AI Sanctuary
       </h2>
@@ -42,8 +60,7 @@ export const CTA: React.FC = () => {
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-center fade-in">
         <Button href="#" variant="primary">
           <span className="flex items-center gap-3 text-sm uppercase tracking-wider">
-            Join our Discord
-            <span>→</span>
+            Join our Discord <span>→</span>
           </span>
         </Button>
         <Button href="#" variant="secondary">
