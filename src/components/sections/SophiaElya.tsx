@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -51,6 +51,7 @@ export default function SophiaElya() {
     const scrollDistance = totalCards * 400; // Adjust this value to control scroll speed
 
     const ctx = gsap.context(() => {
+      // @ts-ignore
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,

@@ -41,7 +41,6 @@ export const Integration: React.FC = () => {
     if (!container) return;
 
     const cards = gsap.utils.toArray('.integration-card') as HTMLElement[];
-    const cardHeight = cards[0].offsetHeight;
     const cardGap = 100; // Space between stacked cards showing title
 
     const ctx = gsap.context(() => {
