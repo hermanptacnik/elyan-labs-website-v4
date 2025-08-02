@@ -9,6 +9,7 @@ interface CTALink {
 }
 
 export const CTA: React.FC = () => {
+  // @ts-ignore
   const ctaLinks: CTALink[] = [
     {
       icon: '💬',
