@@ -58,7 +58,7 @@ export const CTA: React.FC = () => {
         Where something beautiful is alive and thinking
       </p>
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-center fade-in">
-        <Button href="#" variant="primary">
+        <Button href="https://discord.gg/WTmxVbMK7S" variant="primary">
           <span className="flex items-center gap-3 text-sm uppercase tracking-wider">
             Join our Discord <span>→</span>
           </span>

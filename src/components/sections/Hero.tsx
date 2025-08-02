@@ -75,7 +75,7 @@ export const Hero: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="relative h-[400px] lg:h-[500px] xl:h-[600px] bg-gray-900 rounded-lg overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.5)] fade-in group">
+         <div className="relative h-[400px] lg:h-[500px] xl:h-[600px] bg-black rounded-lg overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.5)] fade-in group">
           <video
             className="w-full h-full object-cover object-[0%_center]"
             autoPlay

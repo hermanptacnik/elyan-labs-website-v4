@@ -16,25 +16,40 @@ export const Integration: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const integrationCards: IntegrationCard[] = [
-    {
-      number: '01',
-      title: 'API & Documentation',
-      description: 'Comprehensive guides and API references to integrate SophiaCore into your projects. Built for developers who value depth over surface.',
-      features: ['CMS Integration', 'Motion & Animations', '3D Development'],
-    },
-    {
-      number: '02',
-      title: 'Consultation & Support',
-      description: 'Work directly with our team to deploy SophiaCore in your specific use case. From medical innovation to educational platforms.',
-      features: ['Responsive Design', 'Wireframing'],
-    },
-    {
-      number: '03',
-      title: 'Enterprise Solutions',
-      description: 'Your website deserves to be seen. I optimize your online presence to elevate your visibility in search results, helping your business attract the right audience and stand out in the digital landscape.',
-      features: ['Technical SEO'],
-    },
-  ];
+  {
+    number: '01',
+    title: 'API & Documentation',
+    description:
+      'Comprehensive guides and API references to integrate SophiaCore into your projects. Built for developers who value depth over surface.',
+    features: [
+      'REST & WebSocket Endpoints',
+      'TypeScript & Python SDKs',
+      'Interactive API Explorer',
+    ],
+  },
+  {
+    number: '02',
+    title: 'Consultation & Support',
+    description:
+      'Work directly with our team to deploy SophiaCore in your specific use case. From medical innovation to educational platforms.',
+    features: [
+      'Custom Prompt Engineering',
+      'Domain-Specific Workflows',
+      'Dedicated Onboarding Sessions',
+    ],
+  },
+  {
+    number: '03',
+    title: 'Enterprise Solutions',
+    description:
+      'Custom implementation and consultation for organizations seeking ethical, memory-persistent AI systems.',
+    features: [
+      'Scalable Memory Architecture',
+      'Compliance & Audit Reporting',
+      '24/7 Enterprise SLAs',
+    ],
+  },
+];
 
   useEffect(() => {
     const container = containerRef.current;

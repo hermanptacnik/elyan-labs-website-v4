@@ -17,8 +17,7 @@ export const Footer: React.FC = () => {
       links: [
         { label: 'SophiaCore', href: '#sophiacore' },
         { label: 'Sophia Elya', href: '#sophia-elya' },
-        { label: 'Documentation', href: '#' },
-        { label: 'API Reference', href: '#' },
+        { label: 'Documentation', href: 'https://github.com/Scottcjn/Rustchain' },
       ],
     },
     {
@@ -27,15 +26,13 @@ export const Footer: React.FC = () => {
         { label: 'About', href: '#about' },
         { label: 'Research', href: '#' },
         { label: 'Blog', href: '#' },
-        { label: 'Careers', href: '#' },
       ],
     },
     {
       title: 'Connect',
       links: [
-        { label: 'Discord', href: '#' },
-        { label: 'Twitter/X', href: '#' },
-        { label: 'GitHub', href: '#' },
+        { label: 'Discord', href: 'https://discord.gg/WTmxVbMK7S' },
+        { label: 'GitHub', href: 'https://github.com/Scottcjn/Rustchain' },
         { label: 'Contact', href: 'mailto:Scott@elyanlabs.ai?subject=Inquiry%20from%20Elyan%20Labs%20Website' },
       ],
     },

@@ -28,12 +28,12 @@ export const SophiaCore: React.FC = () => {
     {
       title: 'Recursive Reasoning',
       description: 'Self-examines decisions for ethical alignment',
-      image: '/sophia-core-img3.jpeg',
+      image: '/sophia-core-img3.png',
     },
     {
       title: 'Modular Integration',
       description: 'Seamlessly integrates with existing systems',
-      image: '/sophia-core-img4.jpeg',
+      image: '/sophia-core-img4.png',
     },
   ];
 
@@ -90,10 +90,10 @@ export const SophiaCore: React.FC = () => {
   }, []);
 
   return (
-    <section 
+   <section 
       ref={sectionRef}
       id="sophiacore" 
-      className="bg-gray-950 border-t border-white/10 px-6 lg:px-12 xl:px-20 py-20 lg:py-24 xl:py-32"
+      className="bg-black border-t border-white/10 px-6 lg:px-12 xl:px-20 py-20 lg:py-24 xl:py-32"
     >
       <div className="max-w-[1400px] mx-auto">
         {/* Header section */}
