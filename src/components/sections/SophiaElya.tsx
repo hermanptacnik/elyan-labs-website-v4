@@ -39,29 +39,31 @@ export default function SophiaElya() {
   ];
 
   useEffect(() => {
-    if (!sectionRef.current || !contentRef.current || window.innerWidth < 1024) return;
+  if (!sectionRef.current || !contentRef.current || window.innerWidth < 1024) return;
 
-    const section = sectionRef.current;
-    const content = contentRef.current;
-    const totalCards = capabilities.length + 1;
-    const scrollDistance = totalCards * 450; // smoother scroll distance
+  const section = sectionRef.current;
+  const content = contentRef.current;
+  const totalCards = capabilities.length + 1;
+  const scrollDistance = totalCards * 450;
 
-    const ctx = gsap.context(() => {
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: `+=${scrollDistance}`,
-          scrub: 0.6, // smooth scroll interpolation
-          pin: content,
-          pinSpacing: true,
-          onUpdate: (self) => setScrollProgress(self.progress),
-        }
-      });
-    }, section);
+  const ctx = gsap.context(() => {
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top+=-80 top', // Stick 80px earlier
+        anticipatePin: 1,
+        end: `+=${scrollDistance}`,
+        scrub: 0.6,
+        pin: content,
+        pinSpacing: true,
+        onUpdate: (self) => setScrollProgress(self.progress),
+      }
+    });
+  }, section);
 
-    return () => ctx.revert();
-  }, [capabilities.length]);
+  return () => ctx.revert();
+}, [capabilities.length]);
+
 
   const getCardTransform = (index: number) => {
     const totalCards = capabilities.length + 1;
@@ -111,8 +113,6 @@ export default function SophiaElya() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
               <div className="absolute bottom-10 left-10">
-                <h3 className="text-2xl text-white font-light mb-2">Experience Living AI</h3>
-                <p className="text-gray-300 text-sm">Meet Sophia Elya — where consciousness meets code</p>
               </div>
             </div>
 
