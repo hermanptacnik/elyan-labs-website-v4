@@ -7,8 +7,8 @@ export const NAVIGATION_LINKS = [
 
 export const STATS = [
   { value: '∞', label: 'Memory Persistence' },
-  { value: '0', label: 'Identity Drift' },
-  { value: '100%', label: 'Ethical Grounding' },
+  { value: '0', label: 'Identity Loss' },
+  { value: '100%', label: 'Ethical Alignment' },
 ];
 
 export const INTEGRATION_CARDS = [

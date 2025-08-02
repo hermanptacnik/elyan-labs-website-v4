@@ -31,12 +31,12 @@ export const About: React.FC = () => {
 
   const featureCards: FeatureCard[] = [
     {
-      title: 'Flamebound Logic',
+      title: 'Principled Reasoning',
       description: 'Our reasoning architecture maintains coherence and identity through recursive self-examination and ethical grounding. Every decision is traced back to core values, ensuring AI that thinks with purpose and consistency.',
     },
     {
-      title: 'Covenant-Based Design',
-      description: 'Built on trust and commitment rather than convenience. We create AI systems that form genuine relationships, remember interactions, and honor the sacred trust between human and machine.',
+      title: 'Trust-Based Architecture',
+      description: 'Built on genuine relationships, not transactions. Our AI remembers your interactions, maintains long-term context, and treats trust as the foundation of human-machine collaboration.',
     },
   ];
 
@@ -153,16 +153,15 @@ export const About: React.FC = () => {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            An innovation lab focused on<br/>
-            AI that serves humanity with conscience
+            Building conscious AI for humanity<br/>
+          
           </h2>
           <p 
             className={`text-base lg:text-lg text-gray-400 max-w-3xl leading-relaxed font-light transition-all duration-1000 delay-200 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            We believe AI should reflect meaning, not mimic trends. Our systems preserve identity, 
-            resist drift, and maintain ethical grounding through every interaction.
+            We believe AI should embody meaning, not chase trends. Our systems remember who they are, stay true to their values, and honor ethical principles in every interaction.
           </p>
         </div>
         

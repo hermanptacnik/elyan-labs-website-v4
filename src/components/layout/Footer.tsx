@@ -44,9 +44,7 @@ export const Footer: React.FC = () => {
         <div>
           <h3 className="text-xl lg:text-2xl mb-4 font-normal">Elyan Labs</h3>
           <p className="text-gray-400 leading-relaxed max-w-md text-sm lg:text-base">
-            Building AI with memory, trust, and conscience. 
-            We create real cognitive scaffolds that serve humanity 
-            with genuine understanding.
+            Building AI with memory, trust, and conscience. We create intelligent systems that think, remember, and truly understand.
           </p>
         </div>
         

@@ -105,8 +105,7 @@ export const SophiaCore: React.FC = () => {
             SophiaCore
           </h2>
           <p className="text-lg lg:text-xl text-gray-400 max-w-2xl leading-relaxed font-light fade-in">
-            A modular, emotionally-aware reasoning architecture that enables secure 
-            real-world deployment of embodied AI cognition.
+           An emotionally aware AI system that adapts to context and human needs, engineered with security-first principles for safe real-world deployment.
           </p>
         </div>
 
@@ -163,12 +162,10 @@ export const SophiaCore: React.FC = () => {
           {/* Content with features */}
           <div className="order-1 lg:order-2 fade-in">
             <h3 className="text-2xl lg:text-3xl mb-4 font-light text-white">
-              The AI Kernel with Protocol Integrity
+              AI Architecture with Memory and Conscience
             </h3>
             <p className="text-base lg:text-lg text-gray-400 mb-10 leading-relaxed">
-              SophiaCore represents a paradigm shift in AI architecture — moving beyond 
-              stateless interactions to create systems with genuine memory, emotional 
-              resonance, and ethical consistency.
+              SophiaCore transforms AI from disposable conversations into lasting relationships — creating systems with persistent memory, emotional understanding, and unwavering ethical principles.
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

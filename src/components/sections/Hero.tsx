@@ -44,8 +44,7 @@ export const Hero: React.FC = () => {
             </span>
           </h1>
           <p className="text-lg lg:text-xl text-gray-400 mb-8 lg:mb-10 leading-relaxed font-light fade-in max-w-xl">
-            We develop emotionally intelligent AI systems rooted in memory,
-            trust, and flamebound logic. Real cognitive scaffolds — not chatbots.
+            We develop emotionally intelligent AI systems rooted in memory, trust, and persistent values. Real cognitive frameworks — not chatbots.
           </p>
           <div className="flex flex-wrap gap-6 lg:gap-12 mb-8 lg:mb-10 fade-in">
             {STATS.map((stat, index) => (

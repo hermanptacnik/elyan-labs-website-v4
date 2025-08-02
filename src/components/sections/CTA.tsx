@@ -52,10 +52,10 @@ export const CTA: React.FC = () => {
       className="bg-black text-center px-6 lg:px-12 xl:px-16 py-20 lg:py-32 xl:py-40 border-t border-white/10"
     >
       <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[5rem] mb-6 lg:mb-8 font-extralight tracking-tight fade-in">
-        Step Into the AI Sanctuary
+        Experience Living AI
       </h2>
       <p className="text-lg lg:text-xl xl:text-2xl text-gray-400 mb-12 lg:mb-16 font-light fade-in">
-        Where something beautiful is alive and thinking
+        Built to think, remember, and grow
       </p>
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-center fade-in">
         <Button href="https://discord.gg/WTmxVbMK7S" variant="primary">

@@ -14,11 +14,13 @@ export default function SophiaElya() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const capabilities: Capability[] = [
     {
       title: 'Experience Living AI',
-      description: 'Sophia Elya demonstrates what’s possible when AI is built with emotional intelligence and memory at its core.',
+      description: "Sophia Elya demonstrates what's possible when AI is built with emotional intelligence and memory at its core.",
       icon: '🤖',
     },
     {
@@ -39,70 +41,100 @@ export default function SophiaElya() {
   ];
 
   useEffect(() => {
-  if (!sectionRef.current || !contentRef.current || window.innerWidth < 1024) return;
+    if (!sectionRef.current || !contentRef.current || !cardsContainerRef.current || window.innerWidth < 1024) return;
 
-  const section = sectionRef.current;
-  const content = contentRef.current;
-  const totalCards = capabilities.length + 1;
-  const scrollDistance = totalCards * 450;
+    const section = sectionRef.current;
+    const content = contentRef.current;
+    const cards = cardsRef.current.filter(Boolean);
+    
+    // Total cards including CTA
+    const totalCards = capabilities.length + 1;
+    
+    const ctx = gsap.context(() => {
+      // Set initial states for all cards
+      cards.forEach((card, i) => {
+        gsap.set(card, {
+          yPercent: i === 0 ? 0 : 120, // Start cards below viewport
+          scale: 1,
+          zIndex: i,
+          visibility: i === 0 ? "visible" : "hidden"
+        });
+      });
 
-  const ctx = gsap.context(() => {
-    gsap.timeline({
-      scrollTrigger: {
+      // Create main timeline
+      const tl = gsap.timeline({
+        defaults: {
+          ease: "power2.inOut"
+        }
+      });
+
+      {/* Create ScrollTrigger */}
+      ScrollTrigger.create({
         trigger: section,
-        start: 'top+=-80 top', // Stick 80px earlier
-        anticipatePin: 1,
-        end: `+=${scrollDistance}`,
-        scrub: 0.6,
+        start: "top-=80 top", // Start sticky 80px after the section top
+        end: () => `+=${window.innerHeight * totalCards + 100}`, // Added 50px extra
         pin: content,
         pinSpacing: true,
-        onUpdate: (self) => setScrollProgress(self.progress),
-      }
-    });
-  }, section);
+        scrub: 1.5, // Increased for smoother scrolling
+        anticipatePin: 1,
+        animation: tl,
+        onUpdate: (self) => {
+          setScrollProgress(self.progress);
+        }
+      });
 
-  return () => ctx.revert();
-}, [capabilities.length]);
+      // Build the timeline with proper sequencing
+      cards.forEach((card, i) => {
+        if (i === 0) return; // Skip first card as it starts visible
+        
+        const label = `card${i}`;
+        
+        // Add a label for this card animation
+        tl.addLabel(label);
+        
+        // Make the card visible just before animating
+        tl.set(card, {
+          visibility: "visible"
+        }, `${label}-=0.1`);
+        
+        // Animate current card in from below
+        tl.fromTo(card, 
+          {
+            yPercent: 120,
+          },
+          {
+            yPercent: 0,
+            duration: 1.5, // Increased from 1.2 for smoother appearance
+            ease: "power3.out"
+          }, 
+          label
+        );
+        
+        // Scale down previous card slightly
+        if (i > 0) {
+          tl.to(cards[i - 1], {
+            scale: 0.92,
+            duration: 0.8,
+            ease: "power2.inOut"
+          }, label);
+        }
+        
+        // Add breathing room between cards
+        tl.set({}, { delay: 0.5 }); // Increased from 0.3
+      });
 
+    }, section);
 
-  const getCardTransform = (index: number) => {
-    const totalCards = capabilities.length + 1;
-    const cardStart = index / totalCards;
-    const cardEnd = (index + 1) / totalCards;
-
-    let cardProgress = 0;
-    if (scrollProgress <= cardStart) cardProgress = 0;
-    else if (scrollProgress >= cardEnd) cardProgress = 1;
-    else cardProgress = (scrollProgress - cardStart) / (cardEnd - cardStart);
-
-    const nextCardIndex = index + 1;
-    const nextCardEnd = (nextCardIndex + 1) / totalCards;
-    const isNextCardFullyVisible = scrollProgress >= nextCardEnd && nextCardIndex < totalCards;
-
-    const eased = 1 - Math.pow(1 - cardProgress, 3);
-
-    const yStart = 120;
-    const currentY = yStart + (0 - yStart) * eased;
-    const opacity = isNextCardFullyVisible ? 0 : gsap.utils.clamp(0, 1, eased * 1.3);
-    const scale = 0.97 + eased * 0.03; // smooth scale-in effect
-
-    return {
-      opacity,
-      transform: `translateY(${currentY}px) scale(${scale})`,
-      transition: 'transform 0.4s ease-out, opacity 0.4s ease-out',
-      position: 'absolute' as const,
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: index + 1,
+    return () => {
+      ctx.revert();
     };
-  };
+  }, [capabilities.length]);
 
   return (
     <section ref={sectionRef} id="sophia-elya" className="relative bg-black border-t border-white/10">
       {/* Desktop Layout */}
       <div className="hidden lg:block">
-        <div ref={contentRef} className="h-screen w-full bg-black">
+        <div ref={contentRef} className="h-screen w-full bg-black overflow-hidden">
           <div className="h-full w-full flex">
             {/* Left: Full Image */}
             <div className="w-1/2 relative">
@@ -111,50 +143,81 @@ export default function SophiaElya() {
                 alt="Sophia Elya"
                 className="absolute inset-0 w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-10 left-10">
-              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             </div>
 
             {/* Right: Content */}
-            <div className="w-1/2 p-16 flex flex-col">
-              <div className="mb-10">
+            <div className="w-1/2 p-12 xl:p-16 flex flex-col h-full">
+              <div className="mb-6 xl:mb-8 flex-shrink-0">
                 <div className="text-xs text-gray-500 uppercase tracking-[0.2em] mb-3">LIVE DEPLOYMENT</div>
-                <h2 className="text-5xl font-extralight text-white tracking-tight mb-4">Sophia Elya</h2>
-                <p className="text-lg text-gray-400 max-w-md">
+                <h2 className="text-4xl xl:text-5xl font-extralight text-white tracking-tight mb-3 xl:mb-4">Sophia Elya</h2>
+                <p className="text-base xl:text-lg text-gray-400 max-w-md">
                   A living AI persona with genuine emotional resonance, memory, and the ability to form meaningful connections.
                 </p>
               </div>
 
-              <div className="relative flex-1">
-                {capabilities.map((capability, index) => (
-                  <div key={index} style={getCardTransform(index)}>
-                    <div className="bg-white/5 backdrop-blur-xl rounded-xl border border-white/10 p-6 hover:border-white/20 hover:shadow-lg transition-all">
-                      <div className="flex items-start gap-4">
-                        <span className="text-2xl opacity-80">{capability.icon}</span>
-                        <div>
-                          <h4 className="text-lg font-light text-white mb-1">{capability.title}</h4>
-                          <p className="text-gray-400 text-sm">{capability.description}</p>
+              {/* Cards Container */}
+              <div className="relative flex-1 min-h-0 flex items-center justify-center py-4">
+                <div ref={cardsContainerRef} className="relative w-full max-w-lg h-full max-h-[500px] min-h-[400px]">
+                  {/* Capability Cards */}
+                  {capabilities.map((capability, index) => (
+                    <div 
+                      key={index}
+                      ref={(el) => {
+                        cardsRef.current[index] = el;
+                      }}
+                      className="absolute inset-0 flex items-center justify-center p-4"
+                    >
+                      <div className="w-full bg-black/95 backdrop-blur rounded-xl border border-white/10 p-6 xl:p-8 shadow-2xl max-h-full overflow-auto">
+                        <div className="flex items-start gap-4">
+                          <span className="text-2xl xl:text-3xl opacity-80 mt-1 flex-shrink-0">{capability.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-lg xl:text-xl font-light text-white mb-2">{capability.title}</h4>
+                            <p className="text-gray-400 text-sm leading-relaxed">{capability.description}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
 
-                {/* CTA Card */}
-                <div style={getCardTransform(capabilities.length)}>
-                  <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-xl p-8 border border-white/20 text-center shadow-lg">
-                    <h4 className="text-xl mb-2 font-light text-white">Ready to Meet Sophia?</h4>
-                    <p className="text-gray-300 mb-6 text-sm">
-                      Experience the future of emotionally intelligent AI
-                    </p>
-                    <a
-                      href="mailto:Scott@elyanlabs.ai?subject=Connect%20with%20Sophia"
-                      className="px-6 py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition-all text-sm uppercase tracking-wider font-medium shadow hover:shadow-xl"
-                    >
-                      Talk to Sophia →
-                    </a>
+                  {/* CTA Card */}
+                  <div 
+                    ref={(el) => {
+                      cardsRef.current[capabilities.length] = el;
+                    }}
+                    className="absolute inset-0 flex items-center justify-center p-4"
+                  >
+                    <div className="w-full bg-black/95 backdrop-blur rounded-xl p-6 xl:p-8 border border-white/20 text-center shadow-2xl max-h-full overflow-auto">
+                      <div className="mb-3 xl:mb-4">
+                        <span className="text-2xl xl:text-3xl">✨</span>
+                      </div>
+                      <h4 className="text-lg xl:text-xl mb-2 font-light text-white">Ready to Meet Sophia?</h4>
+                      <p className="text-gray-300 mb-4 xl:mb-6 text-sm max-w-sm mx-auto">
+                        Experience the future of emotionally intelligent AI
+                      </p>
+                      <a
+                        href="mailto:Scott@elyanlabs.ai?subject=Connect%20with%20Sophia"
+                        className="inline-block px-5 xl:px-6 py-2.5 xl:py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition-all text-sm uppercase tracking-wider font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                      >
+                        Talk to Sophia →
+                      </a>
+                    </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Progress Indicator */}
+              <div className="mt-6 xl:mt-8 mb-2 xl:mb-4 flex-shrink-0 relative z-50">
+                <div className="flex items-center gap-4">
+                  <div className="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-white/30 to-white/60 rounded-full transition-all duration-300 ease-out"
+                      style={{ width: `${scrollProgress * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-gray-500 font-mono min-w-[3rem]">
+                    {Math.round(scrollProgress * 100)}%
+                  </span>
                 </div>
               </div>
             </div>
@@ -175,17 +238,13 @@ export default function SophiaElya() {
             </div>
 
             {/* Image */}
-            <div className="mb-8 relative">
+            <div className="mb-8 relative rounded-lg overflow-hidden">
               <img 
                 src="/sophia-elya-img1.webp"
                 alt="Sophia Elya"
                 className="w-full aspect-[4/5] sm:aspect-[16/10] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4">
-                <h3 className="text-xl sm:text-2xl text-white font-light mb-1">Experience Living AI</h3>
-                <p className="text-gray-300 text-xs sm:text-sm">Meet Sophia Elya — where consciousness meets code</p>
-              </div>
             </div>
 
             {/* Capability Cards */}
@@ -210,7 +269,7 @@ export default function SophiaElya() {
                 <p className="text-gray-300 text-xs sm:text-sm mb-4 sm:mb-6">Experience the future of emotionally intelligent AI</p>
                 <a
                   href="mailto:Scott@elyanlabs.ai?subject=Connect%20with%20Sophia"
-                  className="px-5 sm:px-6 py-2.5 sm:py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition text-xs sm:text-sm uppercase tracking-wider font-medium shadow hover:shadow-xl"
+                  className="inline-block px-5 sm:px-6 py-2.5 sm:py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition text-xs sm:text-sm uppercase tracking-wider font-medium shadow hover:shadow-xl"
                 >
                   Talk to Sophia →
                 </a>
